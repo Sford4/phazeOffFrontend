@@ -14,7 +14,10 @@ export default class Login extends React.Component {
 					<View style={styles.container}>
 						<Image style={{ width: 150, height: 75 }} source={require('../../assets/PhazeOffLogo.png')} />
 						<Text style={masterStyles.title}>Menu</Text>
-						<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('Search')}>
+						<TouchableHighlight
+							style={masterStyles.button}
+							onPress={() => Navigation.navigate('StartGame')}
+						>
 							<Text style={masterStyles.btnText}>Start Game</Text>
 						</TouchableHighlight>
 						<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('Join')}>

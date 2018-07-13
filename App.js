@@ -10,6 +10,8 @@ import Login from './src/screens/Login';
 import MainMenu from './src/screens/MainMenu';
 import Join from './src/screens/Join';
 import Options from './src/screens/Options';
+import StartGame from './src/screens/StartGame/StartGamePage';
+import Game from './src/screens/Game/Game';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -31,11 +33,14 @@ export default class App extends React.Component {
 
 const AppStackNavigator = createStackNavigator(
 	{
+		MainMenu: MainMenu,
 		Login: Login,
 		Signup: Signup,
-		MainMenu: MainMenu,
+
 		Join: Join,
-		Options: Options
+		Options: Options,
+		StartGame: StartGame,
+		Game: Game
 	},
 	{
 		headerMode: 'none',

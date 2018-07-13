@@ -7,8 +7,9 @@ import Navigation from '../navigation/Navigation';
 const initialState = {
 	testValue: 'THIS IS THE TEST VALUE FROM CONTEXT',
 	user: null,
-	boardsRetrieved: null,
-	gameFound: null
+	gameFound: null,
+	catsFromBackend: [],
+	game: null
 };
 
 const HEADERS = {
@@ -109,6 +110,24 @@ export class AppProvider extends React.Component {
 		});
 	};
 
+	getCategories = async () => {
+		console.log('getting categories');
+		try {
+			let response = await fetch(`${config.ROOT_URL}/categories`, {
+				method: 'GET',
+				headers: HEADERS
+			});
+			let responseJson = await response.json();
+			console.log('categories gotten:', responseJson.length);
+			this.setState({
+				catsFromBackend: responseJson
+			});
+			return responseJson;
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	findGameByAddCode = async addCode => {
 		try {
 			let response = await fetch(`${config.ROOT_URL}/games/search`, {
@@ -153,44 +172,55 @@ export class AppProvider extends React.Component {
 		});
 	};
 
-	startGame = async (categories, userId) => {
+	startGame = async data => {
+		console.log('Start game data', data);
 		try {
 			let response = await fetch(`${config.ROOT_URL}/games`, {
 				method: 'POST',
 				headers: HEADERS,
 				body: JSON.stringify({
-					categories: categories,
-					organizer: userId,
-					players: [userId]
+					categories: data.categories,
+					organizer: data.players[0].username,
+					players: data.players,
+					gameType: {
+						title: data.type.title,
+						limit: data.type.title === 'time'
+							? data.type.timeLimit
+							: data.type.title === 'points' ? data.type.pointLimit : '0'
+					}
 				})
 			});
 			let responseJson = await response.json();
 			console.log('game started', responseJson);
+			this.setState({
+				game: responseJson
+			});
 			return responseJson;
 		} catch (error) {
 			console.error(error);
 		}
 	};
 
-	
-
 	render() {
 		return (
 			<AppContext.Provider
 				value={{
-                    testValue: this.state.testValue,
-                    user: this.state.user
+					testValue: this.state.testValue,
+					user: this.state.user,
 					signup: this.signup,
 					login: this.login,
 					retrieveUserData: this.retrieveUserData,
 					logout: this.logout,
-					
+					getCategories: this.getCategories,
+					catsFromBackend: this.state.catsFromBackend,
+					startGame: this.startGame,
+					game: this.state.game
+
 					// startGame: this.startGame,
 					// findGameByAddCode: this.findGameByAddCode,
 					// findGameById: this.findGameById,
 					// gameFound: this.state.gameFound,
 					// clearGameSearch: this.clearGameSearch,
-					
 				}}
 			>
 				{this.props.children}

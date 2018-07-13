@@ -20,7 +20,7 @@ export default class Header extends React.Component {
 			<View style={styles.header}>
 				<TouchableHighlight onPress={() => this.goHome()}>
 					<Image
-						style={{ width: 140, height: 70, marginHorizontal: 10 }}
+						style={{ width: 100, height: 70, marginHorizontal: 10 }}
 						source={require('../../../assets/PhazeOffLogo.png')}
 					/>
 				</TouchableHighlight>
