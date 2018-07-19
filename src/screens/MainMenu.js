@@ -4,6 +4,8 @@ import { AppConsumer } from '../context/context';
 import Navigation from '../navigation/Navigation';
 import masterStyles from '../styles/masterStyles';
 
+Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+
 // COMPONENT IMPORTS
 
 export default class Login extends React.Component {
@@ -12,8 +14,8 @@ export default class Login extends React.Component {
 			<AppConsumer>
 				{context => (
 					<View style={styles.container}>
-						<Image style={{ width: 150, height: 75 }} source={require('../../assets/PhazeOffLogo.png')} />
-						<Text style={masterStyles.title}>Menu</Text>
+						<Image style={{ width: 180, height: 130 }} source={require('../../assets/PhazeOffLogo.png')} />
+						<Text style={masterStyles.bigTitle}>Menu</Text>
 						<TouchableHighlight
 							style={masterStyles.button}
 							onPress={() => Navigation.navigate('StartGame')}
@@ -22,9 +24,6 @@ export default class Login extends React.Component {
 						</TouchableHighlight>
 						<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('Join')}>
 							<Text style={masterStyles.btnText}>Join a Game</Text>
-						</TouchableHighlight>
-						<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('NewBoard')}>
-							<Text style={masterStyles.btnText}>Create a Board</Text>
 						</TouchableHighlight>
 						<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('Options')}>
 							<Text style={masterStyles.btnText}>More</Text>

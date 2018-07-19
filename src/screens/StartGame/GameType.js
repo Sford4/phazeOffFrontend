@@ -102,7 +102,7 @@ export default class GameType extends React.PureComponent {
 			<AppConsumer>
 				{context => (
 					<View style={styles.container}>
-						<Header title="Start Game" />
+						<Header title="Start Game!" />
 						<View style={styles.mainBody}>
 							<Text style={masterStyles.subtitle}>2) Select Game Type</Text>
 							<View style={styles.row}>

@@ -100,7 +100,9 @@ class StartGamePage extends React.Component {
 			players: [
 				{
 					avatar: img ? img : 'null',
-					username: username
+					username: username,
+					cardsWon: [],
+					cardsInPlay: []
 				}
 			]
 		});

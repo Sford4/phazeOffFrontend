@@ -32,6 +32,7 @@ export default class Header extends React.Component {
 
 const styles = StyleSheet.create({
 	header: {
+		width: '100%',
 		display: 'flex',
 		flexDirection: 'row',
 		justifyContent: 'space-around',

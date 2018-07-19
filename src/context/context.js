@@ -156,7 +156,7 @@ export class AppProvider extends React.Component {
 				headers: HEADERS
 			});
 			let responseJson = await response.json();
-			console.log('game started!', responseJson);
+			// console.log('game started!', responseJson);
 			this.setState({
 				board: responseJson
 			});
@@ -173,7 +173,7 @@ export class AppProvider extends React.Component {
 	};
 
 	startGame = async data => {
-		console.log('Start game data', data);
+		// console.log('Start game data', data);
 		try {
 			let response = await fetch(`${config.ROOT_URL}/games`, {
 				method: 'POST',
@@ -191,14 +191,21 @@ export class AppProvider extends React.Component {
 				})
 			});
 			let responseJson = await response.json();
-			console.log('game started', responseJson);
+			// console.log('game started', responseJson);
 			this.setState({
-				game: responseJson
+				game: responseJson,
+				user: data.players[0]
 			});
 			return responseJson;
 		} catch (error) {
 			console.error(error);
 		}
+	};
+
+	updateGame = game => {
+		this.setState({
+			game: game
+		});
 	};
 
 	render() {
@@ -214,13 +221,8 @@ export class AppProvider extends React.Component {
 					getCategories: this.getCategories,
 					catsFromBackend: this.state.catsFromBackend,
 					startGame: this.startGame,
-					game: this.state.game
-
-					// startGame: this.startGame,
-					// findGameByAddCode: this.findGameByAddCode,
-					// findGameById: this.findGameById,
-					// gameFound: this.state.gameFound,
-					// clearGameSearch: this.clearGameSearch,
+					game: this.state.game,
+					updateGame: this.updateGame
 				}}
 			>
 				{this.props.children}

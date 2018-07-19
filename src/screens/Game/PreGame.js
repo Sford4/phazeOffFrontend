@@ -1,26 +1,37 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image, TextInput } from 'react-native';
-import { AppConsumer } from '../../context/context';
+// import { AppConsumer } from '../../context/context';
 // import Navigation from '../navigation/Navigation';
-// import masterStyles from '../styles/masterStyles';
+import masterStyles from '../../styles/masterStyles';
 
 // COMPONENT IMPORTS
-import Header from '../../screens/components/header';
 // import AwesomeAlert from 'react-native-awesome-alerts';
 
-class PreGame extends React.Component {
+export default class PreGame extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			players: []
-		};
+		this.state = {};
+		// console.log('props at pregame', this.props);
+
+		this.playersList = this.props.game.players.map((player, index) => {
+			return <Text key={index}>{player.username}</Text>;
+		});
 	}
 
-	onCancel = () => {
-		this.setState({
-			showPopup: false
-		});
-		this.props.clearGameSearch();
+	startGameBtn = () => {
+		if (this.props.user.username === this.props.game.organizer) {
+			// if (this.props.game.players.length < 3) {
+			// 	return <Text>Waiting for at least three players...</Text>;
+			// } else {
+			return (
+				<TouchableHighlight style={masterStyles.button} onPress={() => this.props.startGameFunc()}>
+					<Text style={masterStyles.btnText}>Start Game</Text>
+				</TouchableHighlight>
+			);
+			// }
+		} else {
+			return null;
+		}
 	};
 
 	componentWillUpdate(NextProps, NextState) {}
@@ -28,21 +39,31 @@ class PreGame extends React.Component {
 	render() {
 		return (
 			<View style={styles.container}>
-				<Header title="Pregame" />
-				<View style={styles.smallContainer}>
-					<Text>THIS IS THE PREGAME SCREEN</Text>
+				<View style={styles.header}>
+					{/* ADD END GAME FUNC FOR LEAVING */}
+					<TouchableHighlight style={{ width: '30%' }} onPress={() => this.goHome()}>
+						<Image
+							style={{ width: 100, height: 70, marginHorizontal: 10 }}
+							source={require('../../../assets/PhazeOffLogo.png')}
+						/>
+					</TouchableHighlight>
+					<Text style={[masterStyles.title, { width: '30%', textAlign: 'center' }]}>Pregame</Text>
+					<Text style={[masterStyles.title, { width: '30%', textAlign: 'center' }]}>
+						Add code: {this.props.game.addCode}
+					</Text>
 				</View>
-
+				<View style={styles.smallContainer}>
+					{/* <Text>Add code: {this.props.game.addCode}</Text> */}
+					<Text style={masterStyles.subtitle}>Players</Text>
+					<View>
+						{this.playersList}
+					</View>
+				</View>
+				{this.startGameBtn()}
 			</View>
 		);
 	}
 }
-
-export default props => (
-	<AppConsumer>
-		{props => <PreGame {...props} />}
-	</AppConsumer>
-);
 
 const styles = StyleSheet.create({
 	container: {
@@ -73,5 +94,15 @@ const styles = StyleSheet.create({
 	bigBtnText: {
 		color: 'white',
 		fontSize: 80
+	},
+	header: {
+		width: '100%',
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignSelf: 'flex-start',
+		marginTop: 15,
+		alignItems: 'center',
+		paddingHorizontal: 10
 	}
 });

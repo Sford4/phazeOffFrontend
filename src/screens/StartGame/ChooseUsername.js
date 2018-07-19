@@ -31,14 +31,14 @@ export default class ChooseUsername extends React.PureComponent {
 			<AppConsumer>
 				{context => (
 					<View style={styles.container}>
-						<Header title="Start Game" />
+						<Header title="Start Game!" />
 						<View style={styles.mainBody}>
 							<Text style={masterStyles.subtitle}>3) Select your Username and Picture</Text>
 							<View style={{ height: 150 }}><Text>GET YOUR PIC HERE</Text></View>
-							<Text>Username</Text>
+							<Text>Your Name</Text>
 							<TextInput
 								style={masterStyles.input}
-								placeholder="e.g. Kswag"
+								placeholder="e.g. John"
 								onChangeText={text => this.setState({ username: text })}
 								value={this.state.username}
 								maxLength={25}

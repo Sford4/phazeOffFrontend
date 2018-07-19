@@ -112,7 +112,7 @@ export default class SelectCategories extends React.PureComponent {
 			<AppConsumer>
 				{context => (
 					<View style={styles.container}>
-						<Header title="Start Game" />
+						<Header title="Start Game!" />
 						<View style={styles.mainBody}>
 							<View>
 								<Text style={masterStyles.subtitle}>1) Select Categories</Text>

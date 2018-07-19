@@ -1,4 +1,9 @@
 export default {
+	bigTitle: {
+		fontSize: 40,
+		color: '#4D4D4D',
+		fontFamily: 'Futura-Medium'
+	},
 	title: {
 		fontSize: 30,
 		color: '#4D4D4D',
