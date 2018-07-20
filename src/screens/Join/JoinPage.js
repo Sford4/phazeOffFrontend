@@ -69,7 +69,6 @@ class JoinPage extends React.Component {
 		this.props.setUser(user);
 		Navigation.navigate('Game');
 	};
-	// r1xS6
 	render() {
 		return (
 			<View style={styles.container}>

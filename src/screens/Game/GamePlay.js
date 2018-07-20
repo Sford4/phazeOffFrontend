@@ -11,7 +11,7 @@ export default class GamePlay extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			cardsInPlay: this.getMyCards('play', this.props.game),
+			cardInPlay: this.getMyCards('play', this.props.game),
 			cardsWon: this.getMyCards('won', this.props.game)
 		};
 	}
@@ -21,7 +21,7 @@ export default class GamePlay extends React.Component {
 		return game.players.map(player => {
 			if (player.username === this.props.user.username) {
 				if (type === 'play') {
-					// console.log('cards in play:', player.cardsInPlay);
+					// console.log('cards to play:', player.cardsInPlay[player.cardsInPlay.length - 1]);
 					return player.cardsInPlay[player.cardsInPlay.length - 1];
 				} else if (type === 'won') {
 					// console.log('cards won:', player.cardsWon);
@@ -43,11 +43,21 @@ export default class GamePlay extends React.Component {
 		}
 	};
 
+	limitView = () => {
+		if (this.props.game.gameType.title === 'points') {
+			return <Text style={styles.gameLimit}>Points to Win: {this.props.game.gameType.limit}</Text>;
+		} else if (this.props.game.gameType.title === 'infinite') {
+			return <Text style={styles.gameLimit}>∞</Text>;
+		} else if (this.props.game.gameType.title === 'time') {
+			return null;
+		}
+	};
+
 	componentWillUpdate(NextProps, NextState) {}
 
 	componentWillReceiveProps(NextProps) {
 		this.setState({
-			cardsInPlay: this.getMyCards('play', NextProps.game),
+			cardInPlay: this.getMyCards('play', NextProps.game),
 			cardsWon: this.getMyCards('won', NextProps.game)
 		});
 	}
@@ -55,15 +65,30 @@ export default class GamePlay extends React.Component {
 	render() {
 		return (
 			<View style={[styles.container, { backgroundColor: this.props.screenColor }]}>
+				<TouchableHighlight
+					style={{
+						width: '30%',
+						position: 'absolute',
+						left: '5%',
+						top: '5%'
+					}}
+					onPress={() => this.props.leaveGame()}
+				>
+					<Image
+						style={{ width: 50, height: 35, marginHorizontal: 10 }}
+						source={require('../../../assets/PhazeOffLogo.png')}
+					/>
+				</TouchableHighlight>
 				<View style={styles.points}>
 					<Text style={styles.pointsText}>{this.state.cardsWon} Points</Text>
 				</View>
 				<View>
 					<Text style={styles.cardText}>
-						{this.state.cardsInPlay ? this.state.cardsInPlay : ''}
+						{this.state.cardInPlay ? this.state.cardInPlay : ''}
 					</Text>
 				</View>
 				{this.drawCardBtn()}
+				{this.limitView()}
 
 			</View>
 		);
@@ -117,7 +142,18 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold'
 	},
 	cardText: {
-		fontSize: 60,
-		transform: [{ rotate: '180deg' }]
+		fontSize: 65,
+		transform: [{ rotate: '180deg' }],
+		maxWidth: '95%',
+		marginHorizontal: '3%',
+		textAlign: 'center'
+	},
+	gameLimit: {
+		fontSize: 20,
+		color: '#DDC060',
+		fontWeight: 'bold',
+		position: 'absolute',
+		left: '5%',
+		bottom: '5%'
 	}
 });

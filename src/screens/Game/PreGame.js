@@ -60,7 +60,7 @@ export default class PreGame extends React.Component {
 			<View style={styles.container}>
 				<View style={styles.header}>
 					{/* ADD END GAME FUNC FOR LEAVING */}
-					<TouchableHighlight style={{ width: '30%' }} onPress={() => this.goHome()}>
+					<TouchableHighlight style={{ width: '30%' }} onPress={() => this.props.leaveGame()}>
 						<Image
 							style={{ width: 100, height: 70, marginHorizontal: 10 }}
 							source={require('../../../assets/PhazeOffLogo.png')}

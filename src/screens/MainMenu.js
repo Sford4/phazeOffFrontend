@@ -9,6 +9,10 @@ Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
 // COMPONENT IMPORTS
 
 export default class Login extends React.Component {
+	constructor(props) {
+		super(props);
+		Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+	}
 	render() {
 		return (
 			<AppConsumer>

@@ -10,6 +10,7 @@ import SocketIOClient from 'socket.io-client';
 import PreGame from '../Game/PreGame';
 import GamePlay from '../Game/GamePlay';
 import Judging from '../Game/Judging';
+import Navigation from '../../navigation/Navigation';
 
 class Game extends React.Component {
 	constructor(props) {
@@ -26,6 +27,7 @@ class Game extends React.Component {
 				user={this.props.user}
 				startGameFunc={this.startGame}
 				avatars={this.props.avatars}
+				leaveGame={this.leaveGame}
 			/>
 		);
 		// WEB SOCKET THINGS
@@ -33,7 +35,7 @@ class Game extends React.Component {
 		console.log('user joining at Game 33', this.props.user);
 		this.socket.emit('join', this.props.game.addCode, this.props.user, this.props.game._id);
 		this.socket.on('playerJoined', game => {
-			console.log('player joined triggered', game.players);
+			// console.log('player joined triggered', game.players);
 			this.props.updateGame(game);
 			if (this.state.screen === 'pregame') {
 				this.display = (
@@ -42,6 +44,25 @@ class Game extends React.Component {
 						user={this.props.user}
 						startGameFunc={this.startGame}
 						avatars={this.props.avatars}
+						leaveGame={this.leaveGame}
+					/>
+				);
+				this.setState({
+					screen: 'pregame'
+				});
+			}
+		});
+		this.socket.on('playerLeft', game => {
+			// console.log('player left triggered', game.players);
+			this.props.updateGame(game);
+			if (this.state.screen === 'pregame') {
+				this.display = (
+					<PreGame
+						game={game}
+						user={this.props.user}
+						startGameFunc={this.startGame}
+						avatars={this.props.avatars}
+						leaveGame={this.leaveGame}
 					/>
 				);
 				this.setState({
@@ -59,6 +80,7 @@ class Game extends React.Component {
 					screenColor="white"
 					drawBtn={true}
 					avatars={this.props.avatars}
+					leaveGame={this.leaveGame}
 				/>
 			);
 			this.props.updateGame(game);
@@ -79,6 +101,7 @@ class Game extends React.Component {
 					screenColor="white"
 					drawBtn={true}
 					avatars={this.props.avatars}
+					leaveGame={this.leaveGame}
 				/>
 			);
 			this.setState({
@@ -109,6 +132,7 @@ class Game extends React.Component {
 							screenColor="green"
 							drawBtn={false}
 							avatars={this.props.avatars}
+							leaveGame={this.leaveGame}
 						/>
 					);
 					this.setState({
@@ -133,11 +157,18 @@ class Game extends React.Component {
 					screenColor="white"
 					drawBtn={true}
 					avatars={this.props.avatars}
+					leaveGame={this.leaveGame}
 				/>
 			);
 			this.props.updateGame(data.game);
 			this.setState({
 				screen: 'play'
+			});
+		});
+		this.socket.on('timer', time => {
+			// console.log('timer time', time);
+			this.setState({
+				time: time
 			});
 		});
 	}
@@ -149,7 +180,7 @@ class Game extends React.Component {
 	};
 
 	startGame = () => {
-		this.socket.emit('startGame', this.props.game.addCode);
+		this.socket.emit('startGame', this.props.game.addCode, this.props.game.gameType);
 	};
 
 	chooseWinner = (losers, winner) => {
@@ -157,10 +188,38 @@ class Game extends React.Component {
 		this.socket.emit('phazeOffResult', losers, winner, this.props.game.addCode, this.props.game._id);
 	};
 
+	displayTimer = () => {
+		if (this.props.game.gameType.title === 'time' && this.state.screen !== 'pregame') {
+			return (
+				<Text
+					style={{
+						fontSize: 20,
+						color: '#DDC060',
+						fontWeight: 'bold',
+						position: 'absolute',
+						left: '5%',
+						bottom: '5%'
+					}}
+				>
+					Time left: {Math.floor(this.state.time / 60)}:{(this.state.time % 60).toString().slice(-2)}
+				</Text>
+			);
+		}
+	};
+
+	leaveGame = () => {
+		// CONDITIONAL IF YOU'RE THE ORGANIZER? MIGHT HAVE SERVER HOSTED ON THEIR PHONE...
+		this.socket.emit('leave', this.props.game.addCode, this.props.user, this.props.game._id);
+		Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
+		this.socket.disconnect();
+		Navigation.navigate('MainMenu');
+	};
+
 	render() {
 		return (
 			<View style={styles.container}>
 				{this.display}
+				{this.displayTimer()}
 			</View>
 		);
 	}

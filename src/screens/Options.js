@@ -24,10 +24,13 @@ class Options extends React.Component {
 				</TouchableHighlight>
 				<Text style={masterStyles.bigTitle}>Options</Text>
 				<TouchableHighlight style={masterStyles.button} onPress={() => this.goHome()}>
-					<Text style={masterStyles.btnText}>Make Infinite Boards</Text>
+					<Text style={masterStyles.btnText}>Get More Categories</Text>
+				</TouchableHighlight>
+				<TouchableHighlight style={masterStyles.button} onPress={() => Navigation.navigate('Rules')}>
+					<Text style={masterStyles.btnText}>Rules</Text>
 				</TouchableHighlight>
 				<TouchableHighlight style={masterStyles.button} onPress={() => this.logout()}>
-					<Text style={masterStyles.btnText}>Logout</Text>
+					<Text style={masterStyles.btnText}>More Games</Text>
 				</TouchableHighlight>
 			</View>
 		);

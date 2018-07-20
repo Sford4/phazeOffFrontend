@@ -12,6 +12,7 @@ import Join from './src/screens/Join/JoinPage';
 import Options from './src/screens/Options';
 import StartGame from './src/screens/StartGame/StartGamePage';
 import Game from './src/screens/Game/Game';
+import Rules from './src/screens/Rules';
 
 export default class App extends React.Component {
 	constructor(props) {
@@ -40,7 +41,8 @@ const AppStackNavigator = createStackNavigator(
 		Join: Join,
 		Options: Options,
 		StartGame: StartGame,
-		Game: Game
+		Game: Game,
+		Rules: Rules
 	},
 	{
 		headerMode: 'none',
