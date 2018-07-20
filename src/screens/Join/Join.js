@@ -5,7 +5,6 @@ import Navigation from '../../navigation/Navigation';
 import masterStyles from '../../styles/masterStyles';
 
 // COMPONENT IMPORTS
-import Header from '../../screens/components/header';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default class Join extends React.Component {
@@ -51,7 +50,17 @@ export default class Join extends React.Component {
 	};
 
 	componentWillUpdate(NextProps, NextState) {
-		if (NextProps.gameFound && !NextState.showPopup) {
+		if (NextProps.gameFound && NextProps.gameFound.error && !NextState.showPopup) {
+			console.log('DIDNT FINDD GAME');
+			this.setState({
+				showPopup: true,
+				popupTitle: 'Oh dear...',
+				popupMessage: `We couldn't find a game with that code... remember that it's case sensitive!`,
+				onConfirm: this.onCancel,
+				confirmText: 'Try again',
+				showCancel: false
+			});
+		} else if (NextProps.gameFound && !NextState.showPopup) {
 			console.log('at join game found:', NextProps.gameFound);
 			this.setState({
 				showPopup: true,
