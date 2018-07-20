@@ -30,6 +30,7 @@ class Game extends React.Component {
 		);
 		// WEB SOCKET THINGS
 		this.socket = SocketIOClient('http://localhost:4000');
+		console.log('user joining at Game 33', this.props.user);
 		this.socket.emit('join', this.props.game.addCode, this.props.user, this.props.game._id);
 		this.socket.on('playerJoined', game => {
 			console.log('player joined triggered', game.players);
@@ -57,6 +58,7 @@ class Game extends React.Component {
 					game={game}
 					screenColor="white"
 					drawBtn={true}
+					avatars={this.props.avatars}
 				/>
 			);
 			this.props.updateGame(game);
@@ -76,6 +78,7 @@ class Game extends React.Component {
 					game={this.props.game}
 					screenColor="white"
 					drawBtn={true}
+					avatars={this.props.avatars}
 				/>
 			);
 			this.setState({
@@ -84,7 +87,13 @@ class Game extends React.Component {
 		});
 		this.socket.on('PHAZE OFF!', data => {
 			if (data.playerJudging.username === this.props.user.username) {
-				this.display = <Judging chooseWinner={this.chooseWinner} data={data.playersInPhazeOff} />;
+				this.display = (
+					<Judging
+						chooseWinner={this.chooseWinner}
+						players={data.playersInPhazeOff}
+						avatars={this.props.avatars}
+					/>
+				);
 				this.setState({
 					screen: 'judge'
 				});
@@ -99,6 +108,7 @@ class Game extends React.Component {
 							game={data.game}
 							screenColor="green"
 							drawBtn={false}
+							avatars={this.props.avatars}
 						/>
 					);
 					this.setState({
@@ -122,6 +132,7 @@ class Game extends React.Component {
 					game={data.game}
 					screenColor="white"
 					drawBtn={true}
+					avatars={this.props.avatars}
 				/>
 			);
 			this.props.updateGame(data.game);

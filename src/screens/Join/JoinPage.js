@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image, TextInput, Alert } from 'react-native';
 import { AppConsumer } from '../../context/context';
 import Navigation from '../../navigation/Navigation';
 import masterStyles from '../../styles/masterStyles';
@@ -14,7 +14,8 @@ class JoinPage extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			screen: 'search'
+			screen: 'search',
+			game: this.props.game
 		};
 		this.display = (
 			<Join
@@ -52,10 +53,23 @@ class JoinPage extends React.Component {
 	};
 
 	goToGame = user => {
+		if (!user.username) {
+			Alert.alert('Please enter a name!');
+			return;
+		}
+		for (let i = 0; i < this.props.game.players.length; i++) {
+			if (this.props.game.players[i].username === user.username) {
+				Alert.alert('That name is already being used in this game!');
+				return;
+			}
+		}
+		let avatar = user.img;
+		user.avatar = avatar;
+		console.log('avatar at goToGame joinpage 62', user.img);
 		this.props.setUser(user);
 		Navigation.navigate('Game');
 	};
-
+	// r1xS6
 	render() {
 		return (
 			<View style={styles.container}>

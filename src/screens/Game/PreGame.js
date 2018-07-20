@@ -15,7 +15,7 @@ export default class PreGame extends React.Component {
 		// console.log('avatars at pregame', this.props.avatars);
 		this.playersList = this.props.game.players.map((player, index) => {
 			let img = this.props.avatars[Number(player.avatar)];
-
+			// console.log('player img at pregame 18', img);
 			return (
 				<View key={index} style={styles.player}>
 					<Image style={{ width: 100, height: 100 }} source={img.img} />
@@ -44,7 +44,7 @@ export default class PreGame extends React.Component {
 	componentWillUpdate(NextProps, NextState) {
 		if (this.props.game.players.length !== NextProps.game.players.length) {
 			this.playersList = NextProps.game.players.map((player, index) => {
-				let img = NextProps.avatars[Number(player.avatar) - 1];
+				let img = NextProps.avatars[Number(player.avatar)];
 				return (
 					<View key={index} style={styles.player}>
 						<Image style={{ width: 100, height: 100 }} source={img.img} />

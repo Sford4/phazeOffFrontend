@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image, TextInput, Alert } from 'react-native';
 import { AppConsumer } from '../../context/context';
 import masterStyles from '../../styles/masterStyles';
-import Navigation from '../../navigation/Navigation';
 
 // COMPONENT IMPORTS
 import ChooseAvatar from '../../screens/components/chooseAvatar';
@@ -11,8 +10,8 @@ export default class JoinUsername extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			img: this.props.avatar ? this.props.avatar : '0',
-			username: this.props.username ? this.props.username : null
+			img: '0',
+			username: null
 		};
 	}
 

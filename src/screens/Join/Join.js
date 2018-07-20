@@ -65,7 +65,7 @@ export default class Join extends React.Component {
 			});
 		}
 		if (NextProps.gameFound && NextProps.game && NextProps.game._id === NextProps.gameFound.gameId) {
-			console.log('joining game:', NextProps.game);
+			// console.log('joining game:', NextProps.game);
 			NextProps.clearGameSearch();
 			NextProps.goToChooseUsername();
 		}
@@ -83,6 +83,7 @@ export default class Join extends React.Component {
 						onChangeText={text => this.setState({ code: text })}
 						value={this.state.code}
 						maxLength={6}
+						autoCapitalize="none"
 					/>
 				</View>
 				{this.revealJoinBtn(this.state.code)}
