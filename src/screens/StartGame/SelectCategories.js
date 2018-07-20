@@ -71,6 +71,7 @@ export default class SelectCategories extends React.PureComponent {
 							isChecked={category.checked}
 							rightText={category.title}
 							checkBoxColor="#044797"
+							rightTextStyle={{ color: 'black', fontSize: 20 }}
 						/>
 					);
 				} else {
@@ -82,7 +83,7 @@ export default class SelectCategories extends React.PureComponent {
 								this.setState({
 									showAlert: true
 								})}
-							rightTextStyle={{ color: 'lightgray' }}
+							rightTextStyle={{ color: 'lightgray', fontSize: 20 }}
 							isChecked={category.checked}
 							rightText={category.title}
 							checkBoxColor="lightgray"
@@ -189,7 +190,8 @@ const styles = StyleSheet.create({
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-around'
+		justifyContent: 'space-around',
+		marginBottom: 10
 	},
 	disabled: {
 		borderColor: 'gray'

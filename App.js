@@ -8,7 +8,7 @@ import Navigation from './src/navigation/Navigation';
 import Signup from './src/screens/Signup';
 import Login from './src/screens/Login';
 import MainMenu from './src/screens/MainMenu';
-import Join from './src/screens/Join';
+import Join from './src/screens/Join/JoinPage';
 import Options from './src/screens/Options';
 import StartGame from './src/screens/StartGame/StartGamePage';
 import Game from './src/screens/Game/Game';

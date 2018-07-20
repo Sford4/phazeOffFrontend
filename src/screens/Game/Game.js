@@ -20,13 +20,33 @@ class Game extends React.Component {
 		// TURN SCREEN LANDSCAPE
 		Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.LANDSCAPE_LEFT);
 		// INITIAL DISPLAY
-		this.display = <PreGame game={this.props.game} user={this.props.user} startGameFunc={this.startGame} />;
+		this.display = (
+			<PreGame
+				game={this.props.game}
+				user={this.props.user}
+				startGameFunc={this.startGame}
+				avatars={this.props.avatars}
+			/>
+		);
 		// WEB SOCKET THINGS
 		this.socket = SocketIOClient('http://localhost:4000');
 		this.socket.emit('join', this.props.game.addCode, this.props.user, this.props.game._id);
 		this.socket.on('playerJoined', game => {
-			console.log('player joined triggered');
+			console.log('player joined triggered', game.players);
 			this.props.updateGame(game);
+			if (this.state.screen === 'pregame') {
+				this.display = (
+					<PreGame
+						game={game}
+						user={this.props.user}
+						startGameFunc={this.startGame}
+						avatars={this.props.avatars}
+					/>
+				);
+				this.setState({
+					screen: 'pregame'
+				});
+			}
 		});
 		this.socket.on('cardDrawn', game => {
 			console.log('cardDrawn triggered', game);

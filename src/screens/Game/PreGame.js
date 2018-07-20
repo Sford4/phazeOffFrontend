@@ -11,10 +11,17 @@ export default class PreGame extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {};
-		// console.log('props at pregame', this.props);
-
+		console.log('players at pregame', this.props.game.players);
+		// console.log('avatars at pregame', this.props.avatars);
 		this.playersList = this.props.game.players.map((player, index) => {
-			return <Text key={index}>{player.username}</Text>;
+			let img = this.props.avatars[Number(player.avatar)];
+
+			return (
+				<View key={index} style={styles.player}>
+					<Image style={{ width: 100, height: 100 }} source={img.img} />
+					<Text key={index}>{player.username}</Text>
+				</View>
+			);
 		});
 	}
 
@@ -34,7 +41,19 @@ export default class PreGame extends React.Component {
 		}
 	};
 
-	componentWillUpdate(NextProps, NextState) {}
+	componentWillUpdate(NextProps, NextState) {
+		if (this.props.game.players.length !== NextProps.game.players.length) {
+			this.playersList = NextProps.game.players.map((player, index) => {
+				let img = NextProps.avatars[Number(player.avatar) - 1];
+				return (
+					<View key={index} style={styles.player}>
+						<Image style={{ width: 100, height: 100 }} source={img.img} />
+						<Text key={index}>{player.username}</Text>
+					</View>
+				);
+			});
+		}
+	}
 
 	render() {
 		return (
@@ -55,7 +74,7 @@ export default class PreGame extends React.Component {
 				<View style={styles.smallContainer}>
 					{/* <Text>Add code: {this.props.game.addCode}</Text> */}
 					<Text style={masterStyles.subtitle}>Players</Text>
-					<View>
+					<View style={styles.playerlist}>
 						{this.playersList}
 					</View>
 				</View>
@@ -74,26 +93,11 @@ const styles = StyleSheet.create({
 	},
 	smallContainer: {
 		display: 'flex',
+		// flexDirection: 'row',
 		justifyContent: 'space-around',
 		alignItems: 'center',
 		marginTop: 30,
 		height: 150
-	},
-	bigBtn: {
-		width: '70%',
-		aspectRatio: 1,
-		borderRadius: 500,
-		backgroundColor: '#00AC9F',
-		display: 'flex',
-		justifyContent: 'center',
-		alignItems: 'center',
-		shadowRadius: 3,
-		shadowColor: 'gray',
-		shadowOpacity: 0.5
-	},
-	bigBtnText: {
-		color: 'white',
-		fontSize: 80
 	},
 	header: {
 		width: '100%',
@@ -104,5 +108,20 @@ const styles = StyleSheet.create({
 		marginTop: 15,
 		alignItems: 'center',
 		paddingHorizontal: 10
+	},
+	playerlist: {
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		marginTop: 10,
+		height: 150
+	},
+	player: {
+		display: 'flex',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		marginLeft: 10,
+		marginRight: 10
 	}
 });

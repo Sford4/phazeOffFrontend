@@ -112,7 +112,12 @@ export default class GameType extends React.PureComponent {
 								>
 									<Text />
 								</TouchableHighlight>
-								<Text style={this.state.selected === 'time' ? null : { color: 'lightgray' }}>
+								<Text
+									style={[
+										this.state.selected === 'time' ? null : { color: 'lightgray' },
+										{ fontSize: 20 }
+									]}
+								>
 									Time limit:
 								</Text>
 								{this.timeLimits}
@@ -124,7 +129,12 @@ export default class GameType extends React.PureComponent {
 								>
 									<Text />
 								</TouchableHighlight>
-								<Text style={this.state.selected === 'points' ? null : { color: 'lightgray' }}>
+								<Text
+									style={[
+										this.state.selected === 'points' ? null : { color: 'lightgray' },
+										{ fontSize: 20 }
+									]}
+								>
 									Point Limit:
 								</Text>
 								{this.pointLimits}
@@ -194,36 +204,41 @@ const styles = StyleSheet.create({
 	row: {
 		display: 'flex',
 		flexDirection: 'row',
-		alignItems: 'center'
-		// justifyContent: 'center'
+		alignItems: 'center',
+		marginTop: 10
 	},
 	bottomBtns: {
 		display: 'flex',
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'space-around'
+		justifyContent: 'space-around',
+		marginBottom: 10
 	},
 	mainBody: {
 		height: '70%'
 	},
 	chosen: {
-		width: 10,
-		height: 10,
-		borderRadius: 5,
-		backgroundColor: '#044797'
+		width: 25,
+		height: 25,
+		borderRadius: 15,
+		borderWidth: 1,
+		backgroundColor: '#044797',
+		marginRight: 8
 	},
 	notChosen: {
-		width: 10,
-		height: 10,
-		borderRadius: 5,
+		width: 25,
+		height: 25,
+		borderRadius: 15,
 		borderWidth: 1,
-		borderColor: '#044797'
+		borderColor: '#044797',
+		marginRight: 8
 	},
 	numberOptions: {
-		margin: 10
+		margin: 10,
+		fontSize: 20
 	},
 	numSelected: {
-		borderWidth: 1,
+		borderWidth: 3,
 		borderColor: '#044797'
 	}
 });

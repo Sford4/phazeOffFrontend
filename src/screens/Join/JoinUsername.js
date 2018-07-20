@@ -5,33 +5,22 @@ import masterStyles from '../../styles/masterStyles';
 import Navigation from '../../navigation/Navigation';
 
 // COMPONENT IMPORTS
-import Header from '../../screens/components/header';
 import ChooseAvatar from '../../screens/components/chooseAvatar';
 
-export default class ChooseUsername extends React.PureComponent {
+export default class JoinUsername extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			img: '0',
+			img: this.props.avatar ? this.props.avatar : '0',
 			username: this.props.username ? this.props.username : null
 		};
 	}
 
 	saveImg = img => {
-		console.log('img to be saved', img.img);
+		console.log('avatar at joinusername', img);
 		this.setState({
-			img: img.img
+			img: img.img.toString()
 		});
-	};
-
-	changePage = page => {
-		this.props.saveAvatar(this.state.img.toString());
-		this.props.saveUsername(this.state.username);
-		if (page === 'PreGame') {
-			this.props.startGame(this.state.img.toString(), this.state.username);
-		} else {
-			this.props.goToPage(page);
-		}
 	};
 
 	render() {
@@ -39,7 +28,6 @@ export default class ChooseUsername extends React.PureComponent {
 			<AppConsumer>
 				{context => (
 					<View style={styles.container}>
-						<Header title="Start Game!" />
 						<View style={styles.mainBody}>
 							<Text style={masterStyles.subtitle}>3) Select your Name and Picture</Text>
 							<ChooseAvatar avatars={context.avatars} saveImg={this.saveImg} />
@@ -54,19 +42,9 @@ export default class ChooseUsername extends React.PureComponent {
 								/>
 							</View>
 						</View>
-
-						<View style={styles.bottomBtns}>
-							<TouchableHighlight style={masterStyles.halfButton} onPress={() => this.changePage('type')}>
-								<Text style={masterStyles.btnText}>Back</Text>
-							</TouchableHighlight>
-							<TouchableHighlight
-								style={masterStyles.halfButton}
-								onPress={() => this.changePage('PreGame')}
-							>
-								<Text style={masterStyles.btnText}>Next</Text>
-							</TouchableHighlight>
-						</View>
-
+						<TouchableHighlight style={masterStyles.button} onPress={() => this.props.goToGame(this.state)}>
+							<Text style={masterStyles.btnText}>Join Game!</Text>
+						</TouchableHighlight>
 					</View>
 				)}
 			</AppConsumer>
@@ -76,7 +54,6 @@ export default class ChooseUsername extends React.PureComponent {
 
 const styles = StyleSheet.create({
 	container: {
-		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'space-between'

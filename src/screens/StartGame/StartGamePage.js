@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Alert } from 'react-native';
 import { AppConsumer } from '../../context/context';
 import Navigation from '../../navigation/Navigation';
 
@@ -21,7 +21,7 @@ class StartGamePage extends React.Component {
 				pointLimit: '5',
 				selected: 'time'
 			},
-			avatar: null,
+			avatar: '0',
 			username: null
 		};
 		this.SelectCategories = (
@@ -54,6 +54,7 @@ class StartGamePage extends React.Component {
 			/>
 		);
 		if (NextProps.game) {
+			// console.log("game we're going to", NextProps.game);
 			Navigation.navigate('Game');
 		}
 	}
@@ -71,8 +72,9 @@ class StartGamePage extends React.Component {
 	};
 
 	saveAvatar = img => {
+		// console.log('img at save avatar', img);
 		this.setState({
-			avatar: img
+			avatar: img.toString()
 		});
 	};
 
@@ -89,7 +91,14 @@ class StartGamePage extends React.Component {
 	};
 
 	startGame = (img, username) => {
-		console.log('STARTING GAME!');
+		if (!username) {
+			Alert.alert('Please enter your name!');
+			return;
+		} else if (!this.state.categories.length) {
+			Alert.alert('You must choose at least one category!');
+			return;
+		}
+		console.log('STARTING GAME!', img);
 		this.props.startGame({
 			categories: this.state.categories,
 			type: {
@@ -99,7 +108,7 @@ class StartGamePage extends React.Component {
 			},
 			players: [
 				{
-					avatar: img ? img : 'null',
+					avatar: img ? img.toString() : this.state.avatar,
 					username: username,
 					cardsWon: [],
 					cardsInPlay: []

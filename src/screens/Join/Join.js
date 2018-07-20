@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, Image, TextInput } from 'react-native';
-import { AppConsumer } from '../context/context';
-import Navigation from '../navigation/Navigation';
-import masterStyles from '../styles/masterStyles';
+import { AppConsumer } from '../../context/context';
+import Navigation from '../../navigation/Navigation';
+import masterStyles from '../../styles/masterStyles';
 
 // COMPONENT IMPORTS
-import Header from '../screens/components/header';
+import Header from '../../screens/components/header';
 import AwesomeAlert from 'react-native-awesome-alerts';
 
-class Join extends React.Component {
+export default class Join extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -46,7 +46,7 @@ class Join extends React.Component {
 		this.props.clearGameSearch();
 	};
 
-	joinGame = () => {
+	findGame = () => {
 		this.props.findGameById(this.props.gameFound.gameId);
 	};
 
@@ -58,23 +58,22 @@ class Join extends React.Component {
 				popupTitle: 'Found it!',
 				popupMessage: `That code matches a game organized by ${NextProps.gameFound.organizer}; does that sound right?`,
 				onCancel: this.onCancel,
-				onConfirm: this.joinGame,
-				confirmText: 'Join game',
+				onConfirm: this.findGame,
+				confirmText: "That's it!",
 				cancelText: 'Try again',
 				showCancel: true
 			});
 		}
-		if (NextProps.gameFound && NextProps.board._id === NextProps.gameFound.gameId) {
-			console.log('joining game:', NextProps.board);
+		if (NextProps.gameFound && NextProps.game && NextProps.game._id === NextProps.gameFound.gameId) {
+			console.log('joining game:', NextProps.game);
 			NextProps.clearGameSearch();
-			Navigation.navigate('Game');
+			NextProps.goToChooseUsername();
 		}
 	}
 
 	render() {
 		return (
 			<View style={styles.container}>
-				<Header title="Join a Game!" />
 				<View style={styles.smallContainer}>
 					<Text style={masterStyles.subtitle}>Enter Game Code</Text>
 					<Text style={{ fontStyle: 'italic', color: '#BFBFBF' }}>(Case Sensitive)</Text>
@@ -98,7 +97,7 @@ class Join extends React.Component {
 					showConfirmButton={true}
 					confirmText={this.state.confirmText}
 					cancelText={this.state.cancelText}
-					confirmButtonColor="#00a99d"
+					confirmButtonColor="#044797"
 					onConfirmPressed={() => {
 						this.state.onConfirm();
 					}}
@@ -110,12 +109,6 @@ class Join extends React.Component {
 		);
 	}
 }
-
-export default props => (
-	<AppConsumer>
-		{props => <Join {...props} />}
-	</AppConsumer>
-);
 
 const styles = StyleSheet.create({
 	container: {
@@ -135,7 +128,7 @@ const styles = StyleSheet.create({
 		width: '70%',
 		aspectRatio: 1,
 		borderRadius: 500,
-		backgroundColor: '#00AC9F',
+		backgroundColor: '#044797',
 		display: 'flex',
 		justifyContent: 'center',
 		alignItems: 'center',

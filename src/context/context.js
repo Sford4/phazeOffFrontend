@@ -9,7 +9,12 @@ const initialState = {
 	user: null,
 	gameFound: null,
 	catsFromBackend: [],
-	game: null
+	game: null,
+	avatars: [
+		{ name: 'image0', img: require('../../assets/avatar0.jpeg') },
+		{ name: 'image1', img: require('../../assets/avatar1.jpeg') },
+		{ name: 'image2', img: require('../../assets/avatar2.jpeg') }
+	]
 };
 
 const HEADERS = {
@@ -33,6 +38,12 @@ export class AppProvider extends React.Component {
 		} catch (error) {
 			console.log('error storing user', error);
 		}
+	};
+
+	setUser = user => {
+		this.setState({
+			user: user
+		});
 	};
 
 	signup = async obj => {
@@ -149,7 +160,7 @@ export class AppProvider extends React.Component {
 	};
 
 	findGameById = async id => {
-		console.log('looking for board', id);
+		console.log('looking for game', id);
 		try {
 			let response = await fetch(`${config.ROOT_URL}/games/${id}`, {
 				method: 'GET',
@@ -158,7 +169,7 @@ export class AppProvider extends React.Component {
 			let responseJson = await response.json();
 			// console.log('game started!', responseJson);
 			this.setState({
-				board: responseJson
+				game: responseJson
 			});
 			return responseJson;
 		} catch (error) {
@@ -202,6 +213,26 @@ export class AppProvider extends React.Component {
 		}
 	};
 
+	findGameByAddCode = async addCode => {
+		try {
+			let response = await fetch(`${config.ROOT_URL}/games/search`, {
+				method: 'POST',
+				headers: HEADERS,
+				body: JSON.stringify({
+					addCode: addCode
+				})
+			});
+			let responseJson = await response.json();
+			// console.log('game found!', responseJson);
+			this.setState({
+				gameFound: responseJson
+			});
+			return responseJson;
+		} catch (error) {
+			console.error(error);
+		}
+	};
+
 	updateGame = game => {
 		this.setState({
 			game: game
@@ -212,17 +243,22 @@ export class AppProvider extends React.Component {
 		return (
 			<AppContext.Provider
 				value={{
-					testValue: this.state.testValue,
+					avatars: this.state.avatars,
 					user: this.state.user,
 					signup: this.signup,
 					login: this.login,
 					retrieveUserData: this.retrieveUserData,
+					setUser: this.setUser,
 					logout: this.logout,
 					getCategories: this.getCategories,
 					catsFromBackend: this.state.catsFromBackend,
 					startGame: this.startGame,
 					game: this.state.game,
-					updateGame: this.updateGame
+					updateGame: this.updateGame,
+					findGameByAddCode: this.findGameByAddCode,
+					gameFound: this.state.gameFound,
+					clearGameSearch: this.clearGameSearch,
+					findGameById: this.findGameById
 				}}
 			>
 				{this.props.children}

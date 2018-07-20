@@ -17,15 +17,15 @@ export default class GamePlay extends React.Component {
 	}
 
 	getMyCards = (type, game) => {
-		console.log('user at gamelay', this.props.user);
+		// console.log('user at gamelay', this.props.user);
 		return game.players.map(player => {
 			if (player.username === this.props.user.username) {
 				if (type === 'play') {
 					// console.log('cards in play:', player.cardsInPlay);
-					return player.cardsInPlay;
+					return player.cardsInPlay[player.cardsInPlay.length - 1];
 				} else if (type === 'won') {
 					// console.log('cards won:', player.cardsWon);
-					return player.cardsWon;
+					return player.cardsWon.length ? player.cardsWon.length : '0';
 				}
 			}
 		});
@@ -56,11 +56,11 @@ export default class GamePlay extends React.Component {
 		return (
 			<View style={[styles.container, { backgroundColor: this.props.screenColor }]}>
 				<View style={styles.points}>
-					<Text style={styles.pointsText}>{this.state.cardsWon.length} Points</Text>
+					<Text style={styles.pointsText}>{this.state.cardsWon} Points</Text>
 				</View>
 				<View>
 					<Text style={styles.cardText}>
-						{this.state.cardsInPlay.length ? this.state.cardsInPlay[this.state.cardsInPlay.length - 1] : ''}
+						{this.state.cardsInPlay ? this.state.cardsInPlay : ''}
 					</Text>
 				</View>
 				{this.drawCardBtn()}
@@ -72,6 +72,7 @@ export default class GamePlay extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
+		width: '100%',
 		flex: 1,
 		backgroundColor: 'transparent',
 		alignItems: 'center',
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
 		height: 150
 	},
 	drawCardBtn: {
-		width: 65,
+		width: 75,
 		aspectRatio: 1,
 		borderRadius: 50,
 		backgroundColor: '#044797',
@@ -102,20 +103,21 @@ const styles = StyleSheet.create({
 	},
 	drawCardBtnText: {
 		color: 'white',
-		fontSize: 20
+		fontSize: 20,
+		textAlign: 'center'
 	},
 	points: {
 		position: 'absolute',
 		right: '5%',
 		top: '5%'
-		
-    },
-    pointsText: {
-        fontSize: 20,
+	},
+	pointsText: {
+		fontSize: 20,
 		color: '#DDC060',
 		fontWeight: 'bold'
-    }
+	},
 	cardText: {
-		fontSize: 40
+		fontSize: 60,
+		transform: [{ rotate: '180deg' }]
 	}
 });
